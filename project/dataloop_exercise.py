@@ -4,7 +4,12 @@ from typing import Optional
 class Data:
     class Metadata:
         class System:
-            def __init__(self, size: Optional[float] = None, height: Optional[int] = None):
+            def __init__(self, size: Optional[float] = None, height: Optional[int] = None,**kwargs):
+                 # Validation
+                if size is not None and not isinstance(size, float):
+                    raise ValueError("size should be either None or of type float.")
+                if height is not None and not isinstance(height, int):
+                    raise ValueError("height should be either None or of type int.")
                 self.size = size
                 self._height = height
 
@@ -15,10 +20,13 @@ class Data:
                 return self._height
 
         class User:
-            def __init__(self, batch: Optional[int] = None):
+            def __init__(self, batch: Optional[int] = None,**kwargs):
+                # Validation
+                if batch is not None and not isinstance(batch, int):
+                    raise ValueError("batch should be either None or of type int.")
                 self.batch = batch
 
-        def __init__(self, system: Optional['Data.Metadata.System'] = None, user: Optional['Data.Metadata.User'] = None):
+        def __init__(self, system: Optional['Data.Metadata.System'] = None, user: Optional['Data.Metadata.User'] = None,**kwargs):
             if system:
                 self.system = self.System(**system)
             else:
@@ -29,7 +37,12 @@ class Data:
             else:
                 self.user = self.User()
 
-    def __init__(self, id: Optional[str] = None, name: Optional[str] = None, metadata: Optional['Data.Metadata'] = None):
+    def __init__(self, id: Optional[str] = None, name: Optional[str] = None, metadata: Optional['Data.Metadata'] = None,**kwargs):
+
+        if id is not None and not isinstance(id, str):
+            raise ValueError("id should be either None or of type str.")
+        if name is not None and not isinstance(name, str):
+            raise ValueError("name should be either None or of type str.")
         self.id = id
         self.name = name
         self.metadata: 'Data.Metadata'  # Type hint for metadata
