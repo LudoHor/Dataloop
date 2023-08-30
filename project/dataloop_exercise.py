@@ -4,11 +4,11 @@ from typing import Optional
 class Data:
     class Metadata:
         class System:
-            def __init__(self, size: Optional[float] = None, height: Optional[int] = None,**kwargs):
+            def __init__(self, size: Optional[(float)] = None, height: Optional[float] = None,**kwargs):
                  # Validation
-                if size is not None and not isinstance(size, float):
-                    raise ValueError("size should be either None or of type float.")
-                if height is not None and not isinstance(height, int):
+                if size is not None and not isinstance(size, (int, float)):
+                    raise ValueError("size should be either None or of type number.")
+                if height is not None and not isinstance(height, (int, float)):
                     raise ValueError("height should be either None or of type int.")
                 self.size = size
                 self._height = height
@@ -39,8 +39,8 @@ class Data:
 
     def __init__(self, id: Optional[str] = None, name: Optional[str] = None, metadata: Optional['Data.Metadata'] = None,**kwargs):
 
-        if id is not None and not isinstance(id, str):
-            raise ValueError("id should be either None or of type str.")
+        if id is not None and not isinstance(id, (int, str)):
+            raise ValueError("id should be either None or of type str or int.")
         if name is not None and not isinstance(name, str):
             raise ValueError("name should be either None or of type str.")
         self.id = id
@@ -82,34 +82,3 @@ class Data:
     @height.setter
     def height(self, value):
         self.metadata.system.height = value
-
-
-# Usage from dictionary
-data = {
-    "id": "1",
-    "name": "first",
-    "metadata": {
-        "system": {
-            "size": 10.7
-        },
-        "user": {
-            "batch": 10
-        }
-    }
-}
-
-
-# load from dict
-my_inst_1 = Data.from_dict(data)
-
-# load from inputs
-my_inst_2 = Data(name="my")
-
-# reflect inner value
-print(my_inst_1.size)  # should print 10.7
-
-# default values
-# should set a default value of 100 in metadata.system.height
-print(my_inst_1.height)
-print(my_inst_1.to_dict()['metadata']['system']
-      ['height'])  # should print the default value
