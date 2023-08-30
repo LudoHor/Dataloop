@@ -10,6 +10,8 @@ class Data:
                     raise ValueError("size should be either None or of type number.")
                 if height is not None and not isinstance(height, (int, float)):
                     raise ValueError("height should be either None or of type int.")
+                self.size = None
+                self._height = None
                 # size and heihgt to float
                 if size is not None:
                     self.size = float(size)
@@ -46,6 +48,7 @@ class Data:
             raise ValueError("id should be either None or of type str or int.")
         if name is not None and not isinstance(name, str):
             raise ValueError("name should be either None or of type str.")
+        self.id = None
         if id is not None:
             self.id = str(id)
         self.name = name
